@@ -1,5 +1,27 @@
 # Changelog
 
+## [0.15.5](https://github.com/hakadao/BewlyBewly/compare/v0.15.5...v0.15.5) (2024-04-03)
+
+
+### Features
+
+* add some details for dock ([0cb2142](https://github.com/hakadao/BewlyBewly/commit/0cb21427c519bbe85552cba492c8c3c1ac4b8da7))
+* **Home:** clicking the tab will back to top and refresh data on homepage ([#419](https://github.com/hakadao/BewlyBewly/issues/419)) ([aae391d](https://github.com/hakadao/BewlyBewly/commit/aae391d9f49eef3a8e3df98874207baedb0af0b8))
+
+
+### Bug Fixes
+
+* attempt to resolve "EBUSY error from 'C:\DumpStack.log.tmp'" ([8009d8b](https://github.com/hakadao/BewlyBewly/commit/8009d8b93a7e62faefc85a55c3855876eed8ca6c))
+* attempt to resolve "EBUSY error from 'C:\DumpStack.log.tmp'" ([60c2740](https://github.com/hakadao/BewlyBewly/commit/60c274076f49ee22006d29086ae9c12fa59cde83))
+* **Following:** resolve the "no more content" & "need to login first" occurring together ([69b6d86](https://github.com/hakadao/BewlyBewly/commit/69b6d865ad2548c82d8d7a233ce26ff9334d71cf))
+* **Trending:** resolve the infinite data retrieval issus ([#445](https://github.com/hakadao/BewlyBewly/issues/445)) ([80b72c4](https://github.com/hakadao/BewlyBewly/commit/80b72c43b615d6b7a7f12246eb677fa3b7fa148b))
+* **VideoCard:** author avatar display issue in horizontal mode ([efacf5b](https://github.com/hakadao/BewlyBewly/commit/efacf5bd281afbcf63c72e6652a6160128f64e81))
+
+
+### Docs
+
+* add introduction section to readme ([2ce9926](https://github.com/hakadao/BewlyBewly/commit/2ce9926cec0625783687aee9f7c2871abfa8057b))
+
 ## [0.15.5](https://github.com/hakadao/BewlyBewly/compare/v0.15.4...v0.15.5) (2024-03-30)
 
 
