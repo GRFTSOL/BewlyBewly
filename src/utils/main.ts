@@ -126,11 +126,11 @@ export function scrollToTop(element: HTMLElement, targetScrollTop = 0 as number)
   })
 }
 
-export function injectCSS(css: string): HTMLStyleElement {
+export function injectCSS(css: string, element: HTMLElement | ShadowRoot = document.documentElement): HTMLStyleElement {
   const el = document.createElement('style')
   el.setAttribute('rel', 'stylesheet')
   el.textContent = css
-  document.documentElement.appendChild(el)
+  element.appendChild(el)
   return el
 }
 
@@ -146,15 +146,14 @@ export function delay(ms: number) {
 
 /**
  * Check if the current page is the home page
+ * @param url the url to check
  * @returns true if the current page is the home page
  */
-export function isHomePage(): boolean {
+export function isHomePage(url: string = location.href): boolean {
   if (
-    /https?:\/\/(?:www\.)?bilibili.com\/?(?:#\/?)?$/.test(location.href)
-    // https://github.com/hakadao/BewlyBewly/issues/525 #525
-    || /https?:\/\/(?:www\.)?bilibili.com\/?(?:\?.*)?$/.test(location.href)
-    || /https?:\/\/(?:www\.)?bilibili.com\/index\.html$/.test(location.href)
-    || /https?:\/\/(?:www\.)?bilibili.com\/\?spm_id_from=.*/.test(location.href)
+    /https?:\/\/(?:www\.)?bilibili.com\/?(?:#\/?)?$/.test(url)
+    || /https?:\/\/(?:www\.)?bilibili.com\/index\.html$/.test(url)
+    || /https?:\/\/(?:www\.)?bilibili.com\/\?spm_id_from=.*/.test(url)
   ) {
     return true
   }
@@ -229,4 +228,30 @@ export function compressAndResizeImage(file: File, maxWidth: number, maxHeight: 
 
   // Read the file as a Data URL (base64)
   reader.readAsDataURL(file)
+}
+
+/**
+ * Compare two versions
+ * @param version1
+ * @param version2
+ * @returns 1 if version1 is greater than version2, -1 if version1 is less than version2, 0 if version1 is equal to version2
+ */
+export function compareVersions(version1: string, version2: string): number {
+  const v1Parts = version1.split('.').map(Number)
+  const v2Parts = version2.split('.').map(Number)
+
+  // Determine the longer length for iteration
+  const maxLength = Math.max(v1Parts.length, v2Parts.length)
+
+  for (let i = 0; i < maxLength; i++) {
+    const num1 = v1Parts[i] || 0 // Defaults to 0 if undefined
+    const num2 = v2Parts[i] || 0 // Defaults to 0 if undefined
+
+    if (num1 > num2)
+      return 1
+    if (num1 < num2)
+      return -1
+  }
+
+  return 0 // Versions are equal
 }

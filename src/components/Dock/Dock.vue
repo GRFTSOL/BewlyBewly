@@ -78,7 +78,7 @@ onMounted(() => {
   currentDockItems.value = computeDockItem()
 })
 
-function toggleDockHide(hide: boolean) {
+function toggleHideDock(hide: boolean) {
   if (settings.value.autoHideDock)
     hideDock.value = hide
   else
@@ -104,8 +104,8 @@ function handleBackToTopOrRefresh() {
       v-if="settings.autoHideDock && hideDock"
       class="dock-edge"
       :class="`dock-edge-${settings.dockPosition}`"
-      @mouseenter="toggleDockHide(false)"
-      @mouseleave="toggleDockHide(true)"
+      @mouseenter="toggleHideDock(false)"
+      @mouseleave="toggleHideDock(true)"
     />
 
     <!-- Dock Content -->
@@ -117,8 +117,8 @@ function handleBackToTopOrRefresh() {
         bottom: settings.dockPosition === 'bottom',
         hide: hideDock,
       }"
-      @mouseenter="toggleDockHide(false)"
-      @mouseleave="toggleDockHide(true)"
+      @mouseenter="toggleHideDock(false)"
+      @mouseleave="toggleHideDock(true)"
     >
       <div
         class="dock-content-inner"
@@ -154,6 +154,7 @@ function handleBackToTopOrRefresh() {
           v-if="!settings.disableLightDarkModeSwitcherOnDock"
           :content="isDark ? $t('dock.dark_mode') : $t('dock.light_mode')" :placement="tooltipPlacement"
           class="group"
+          pointer-events-none
         >
           <!-- moon -->
           <div
@@ -169,6 +170,7 @@ function handleBackToTopOrRefresh() {
           <button
             class="dock-item"
             bg="!dark-hover:$bew-bg" transform="!dark-hover:scale-100" shadow="!dark-hover:[inset_4px_-2px_8px_hsla(226deg,85%,77%,1)]"
+            pointer-events-auto
             @click="toggleDark"
             @mouseenter="hoveringDockItem.themeMode = true"
             @mouseleave="hoveringDockItem.themeMode = false"
@@ -278,11 +280,11 @@ function handleBackToTopOrRefresh() {
   }
 
   .divider {
-    --uno: "my-1 mx-3 h-4px bg-$bew-fill-1 rounded-4";
+    --uno: "my-1 mx-3 h-3px bg-$bew-border-color rounded-4";
   }
 
   &.bottom .divider {
-    --uno: "w-4px h-auto my-3 mx-1";
+    --uno: "w-3px h-auto my-3 mx-1";
   }
 
   .dock-content-inner {

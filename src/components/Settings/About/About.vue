@@ -1,9 +1,12 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
 import browser from 'webextension-polyfill'
 
-import { settings } from '~/logic'
+import { originalSettings, settings } from '~/logic'
 
 import { version } from '../../../../package.json'
+
+const { t } = useI18n()
 
 const importSettingsRef = ref<HTMLElement>()
 const hasNewVersion = ref<boolean>(false)
@@ -11,6 +14,8 @@ const dialogVisible = reactive({
   sponsor: false,
   justWannaChangeTheJob: false,
 })
+
+const isDev = computed((): boolean => import.meta.env.DEV)
 
 onMounted(() => {
   checkGitHubRelease()
@@ -61,6 +66,17 @@ function handleExportSettings() {
   URL.revokeObjectURL(url)
 }
 
+function handleResetSettings() {
+  const result = confirm(
+    t('settings.reset_settings_confirm'),
+  )
+  if (result) {
+    // Remember the last selected language when resetting settings
+    originalSettings.language = settings.value.language
+    settings.value = originalSettings
+  }
+}
+
 async function checkGitHubRelease() {
   const apiUrl = `https://api.github.com/repos/BewlyBewly/BewlyBewly/releases/latest`
 
@@ -92,7 +108,7 @@ async function checkGitHubRelease() {
         >
 
         <a
-          v-if=" hasNewVersion"
+          v-if="hasNewVersion"
           href="https://github.com/hakadao/BewlyBewly/releases" target="_blank"
           pos="absolute bottom-0 right-0" transform="translate-x-50%" un-text="xs $bew-text-1" p="y-1 x-2" bg="$bew-fill-1"
           rounded-12
@@ -100,10 +116,23 @@ async function checkGitHubRelease() {
           NEW
         </a>
       </div>
-      <section text-xl text-center>
-        <p>BewlyBewly</p>
+      <section text-xl text-center mt-2>
+        <p>
+          BewlyBewly
+          <span
+            v-if="isDev"
+            inline-block text="$bew-warning-color"
+          >
+            Dev
+          </span>
+        </p>
         <p text-center>
-          <a href="https://github.com/hakadao/BewlyBewly/releases" target="_blank" un-text="sm color-$bew-text-2 hover:color-$bew-text-3">v{{ version }}</a>
+          <a
+            href="https://github.com/hakadao/BewlyBewly/releases" target="_blank"
+            un-text="sm color-$bew-text-2 hover:color-$bew-text-3"
+          >
+            v{{ version }}
+          </a>
         </p>
       </section>
 
@@ -198,7 +227,7 @@ async function checkGitHubRelease() {
         </section>
         <section w-full>
           <h3 class="title">
-            {{ `${$t('settings.import_settings')} / ${$t('settings.export_settings')}` }}
+            {{ `${$t('settings.import_settings')} / ${$t('settings.export_settings')} / ${$t('settings.reset_settings')}` }}
           </h3>
           <div flex="~ gap-2">
             <Button class="btn" @click="handleImportSettings">
@@ -216,6 +245,12 @@ async function checkGitHubRelease() {
                 {{ $t('settings.export_settings') }}
               </Button>
             </Tooltip>
+            <Button class="btn" @click="handleResetSettings">
+              <template #left>
+                <i i-mingcute:back-line />
+              </template>
+              {{ $t('settings.reset_settings') }}
+            </Button>
           </div>
         </section>
         <!-- <section>

@@ -36,9 +36,7 @@ export async function getManifest() {
       128: './assets/icon-512.png',
     },
     permissions: [
-      'tabs',
       'storage',
-      'scripting',
       'declarativeNetRequest',
       ...isFirefox
         ? ['webRequest', 'webRequestBlocking']
@@ -65,6 +63,7 @@ export async function getManifest() {
         css: ['./dist/contentScripts/style.css'],
         run_at: 'document_start',
         match_about_blank: true,
+        all_frames: true,
       },
     ],
     web_accessible_resources: [
